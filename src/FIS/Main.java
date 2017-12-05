@@ -1,14 +1,35 @@
 package FIS;
 
 import DBConnect.*;
+import sun.plugin2.main.server.ResultID;
+
 import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        Statement stcs = null;
         Statement stml = null;
 
+        DBConnect.dbConnect CS = new dbConnect();
+        stcs = CS.Conn2DB();
+        String query = "Select * From userdetails where Role=3";
+        String insertquery = "INSERT INTO userdetails ('UserName','UserID','Password','Role') Values(\"Mahinsa\",200,\"tuiyi\",3)";
+        try{
+           ResultSet rs = stcs.executeQuery(query);
+            while (rs.next())
+            {
+                int uID = rs.getInt("UserID");
+                String pw = rs.getString( "Password");
+                System.out.println("UserID from DB"+uID+"password from DB"+pw);
+            }
+        }
+        catch(SQLException se)
+        {
+            se.printStackTrace();
+        }
+        CS.closeDB();
         DBConnect.dbConnect DB = new dbConnect();//Object from DB connect
         DB.Connect2DB();//Connect to DB
 
